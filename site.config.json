@@ -1,0 +1,38 @@
+{
+  "siteName": "Jean Jacques Janse van Rensburg",
+  "shortName": "JJJvR",
+  "tagline": "Compounding intelligence, capital, and organizations.",
+  "description": "Jean Jacques Janse van Rensburg is founder and CEO of SelfBuiltSystems, a frontier AI systems firm, and co-founder of Silla Global AI. Essays on AI systems, private equity, and AI sovereignty. This site is the API layer for working with him.",
+  "url": "https://jeanjacquesjansevanrensburg.com",
+  "author": {
+    "name": "Jean Jacques Janse van Rensburg",
+    "jobTitle": "Founder & CEO, SelfBuiltSystems",
+    "email": "triplejaythecoolestkidinafrica@gmail.com",
+    "sameAs": [
+      "https://www.selfbuiltsystems.com",
+      "https://www.youtube.com/@JJJvR",
+      "https://www.linkedin.com/in/CHANGE-ME",
+      "https://x.com/CHANGE-ME"
+    ]
+  },
+  "stack": ["Intelligence", "Bits", "Atoms", "Electrons"],
+  "topics": ["AI systems", "Private equity", "AI sovereignty"],
+  "buttondownUsername": "CHANGE-ME",
+  "plausibleDomain": "jeanjacquesjansevanrensburg.com",
+  "advisory": {
+    "price": "$1,000 / hour",
+    "note": "The price is a filter, not a revenue line."
+  },
+  "nav": [
+    { "label": "Home", "href": "/" },
+    { "label": "Essays", "href": "/#essays" },
+    { "label": "About", "href": "/about/" }
+  ],
+  "footerLinks": [
+    { "label": "SelfBuiltSystems", "href": "https://www.selfbuiltsystems.com" },
+    { "label": "Silla Global AI", "href": "#" },
+    { "label": "LNCELOT", "href": "#" },
+    { "label": "YouTube", "href": "https://www.youtube.com/@JJJvR" },
+    { "label": "RSS", "href": "/rss.xml" }
+  ]
+}

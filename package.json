@@ -1,0 +1,14 @@
+{
+  "name": "jjjvr-site",
+  "version": "1.0.0",
+  "description": "Personal platform of Jean Jacques Janse van Rensburg. Own rails. Ghost-class SEO functionality, zero Ghost.",
+  "type": "module",
+  "scripts": {
+    "build": "node build.js",
+    "dev": "node build.js && npx serve dist",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "marked": "^4.3.0"
+  }
+}
