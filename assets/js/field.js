@@ -1,16 +1,16 @@
 /* ============================================================
-   field.js — the motion engine.
+   field.js - the motion engine.
    One file, six effects, all progressive enhancement.
    A canvas declares its effect: <canvas data-effect="pixels">.
    Crawlers, no-JS readers, and reduced-motion users get the
    complete site without any of this. Content never lives here.
 
-   pixels  — Osmantic-style dithered fragment wave (home hero)
-   city    — Tron light-trails over the Mind city image (post hero)
-   neural  — firing network (intelligence page)
-   bits    — dissolving bit-grid rain (bits page)
-   atom    — nucleus + orbiting electrons (atoms page)
-   current — energy lines with traveling pulses (electrons page)
+   pixels  - Osmantic-style dithered fragment wave (home hero)
+   city    - Tron light-trails over the Mind city image (post hero)
+   neural  - firing network (intelligence page)
+   bits    - dissolving bit-grid rain (bits page)
+   atom    - nucleus + orbiting electrons (atoms page)
+   current - energy lines with traveling pulses (electrons page)
    ============================================================ */
 
 document.documentElement.classList.add("js");

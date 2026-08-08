@@ -1,5 +1,5 @@
 /* ============================================================
-   JJJvR — main.css
+   JJJvR - main.css
    Black. White. One restrained pulse of light. Restraint is the
    luxury signal. Content is HTML; motion is paint on top.
    ============================================================ */
@@ -269,6 +269,46 @@ img { max-width: 100%; height: auto; display: block; }
 .prose code { font-family: var(--mono); font-size: 0.85em; background: var(--bg-raise); padding: 2px 6px; border-radius: 6px; }
 .prose img { border-radius: 12px; border: 1px solid var(--line); margin: 1.5em 0; }
 .prose strong { color: var(--ink); }
+
+/* ---------- thesis: figures, tables, gate ---------- */
+
+.thesis-kicker { color: var(--faint); margin-bottom: 1.4em; }
+.thesis-byline { color: var(--faint); margin: 1.4em 0 0; }
+
+.fig { margin: 2.4em 0; padding: 22px 14px 14px; border: 1px solid var(--line); border-radius: 14px; background: var(--bg-raise); }
+.fig svg { width: 100%; height: auto; display: block; }
+.fig figcaption {
+  margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--line);
+  font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.08em; color: var(--faint);
+}
+.fig-hole .spin { animation: hole-spin 60s linear infinite; }
+@keyframes hole-spin { to { transform: rotate(360deg); } }
+
+.prose table { width: 100%; border-collapse: collapse; margin: 1.8em 0; font-size: 0.86rem; }
+.prose th {
+  text-align: left; font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.1em;
+  color: var(--faint); font-weight: 500; padding: 8px 10px; border-bottom: 1px solid var(--line);
+}
+.prose td { padding: 9px 10px; border-bottom: 1px solid var(--line); color: #d6d6dc; vertical-align: top; }
+.prose tr:hover td { background: rgba(255, 255, 255, 0.02); }
+
+.gate { position: relative; margin: 0 0 2em; }
+.gate::before {
+  content: ""; position: absolute; left: 0; right: 0; top: -140px; height: 140px;
+  background: linear-gradient(to bottom, transparent, var(--bg)); pointer-events: none;
+}
+.gate-inner {
+  border: 1px solid rgba(140, 200, 255, 0.3); border-radius: 18px; padding: 40px 28px;
+  text-align: center; background:
+    radial-gradient(400px 160px at 50% 0%, rgba(140, 200, 255, 0.08), transparent), var(--bg-raise);
+  box-shadow: 0 0 60px -30px var(--glow);
+}
+.gate-kicker { color: var(--dim); margin-bottom: 14px; }
+.gate-inner h2 { font-size: clamp(1.2rem, 3vw, 1.7rem); margin-bottom: 14px; }
+.gate-inner > .gate-inner p, .gate-inner p { color: var(--dim); max-width: 42ch; margin: 0 auto 8px; }
+.gate-form { max-width: 26rem; margin: 22px auto 0; }
+html.js .gated.locked { display: none; }
+html:not(.js) .gate { display: none; }
 
 .portrait-fig { margin: 2.6em auto; max-width: 400px; text-align: center; }
 .portrait-fig img { border-radius: 14px; border: 1px solid var(--line); }

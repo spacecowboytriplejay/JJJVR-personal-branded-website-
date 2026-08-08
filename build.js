@@ -152,6 +152,7 @@ function layout({ title, description, canonical, image, jsonld, bodyClass = "", 
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script>document.documentElement.classList.add("js");setTimeout(function(){var r=document.querySelectorAll(".reveal:not(.in)");for(var i=0;i<r.length;i++)r[i].classList.add("in");},2500);</script>
 <title>${esc(title)}</title>
 <meta name="description" content="${esc(description)}">
 <link rel="canonical" href="${canonical}">
@@ -297,7 +298,59 @@ ${rest.length ? `
   });
 }
 
+/* Gated posts: the FULL text ships in the HTML so crawlers, answer engines and
+   no-JS readers see everything (flexible sampling). JavaScript applies the gate
+   for human visitors; Google's paywall schema marks it as legitimate gated
+   content, not cloaking. The gate is a conversion instrument, not DRM. */
+function gatedBody(p) {
+  const [free, ...rest] = p.html.split("<!--GATE-->");
+  const gated = rest.join("");
+  return `
+  <div class="prose">
+    ${free}
+  </div>
+  <div class="gate" id="gate">
+    <div class="gate-inner">
+      <p class="mono gate-kicker">FULL THESIS / FREE / DELIVERED BY EMAIL</p>
+      <h2 class="display-sm">READ THE REST.</h2>
+      <p>Everything I publish is free to read, and this is no exception. Put your email in, the rest of the thesis unlocks now, and every future essay lands in your inbox.</p>
+      <form class="subscribe gate-form" action="https://buttondown.com/api/emails/embed-subscribe/${config.buttondownUsername}" method="post" target="gate-sink">
+        <label class="visually-hidden" for="email-gate">Email address</label>
+        <input type="email" id="email-gate" name="email" placeholder="you@firm.com" required>
+        <button type="submit">Unlock the thesis</button>
+      </form>
+      <iframe name="gate-sink" hidden aria-hidden="true" tabindex="-1"></iframe>
+      <p class="subscribe-note">No cost, no spam, unsubscribe any time. The machine remembers you on this device.</p>
+    </div>
+  </div>
+  <div class="prose gated locked" id="gated-content">
+    ${gated}
+  </div>
+  <script>
+  (function(){
+    var KEY='jjjvr_unlocked';
+    var gate=document.getElementById('gate'), body=document.getElementById('gated-content');
+    if(!gate||!body)return;
+    function unlock(){ body.classList.remove('locked'); }
+    try{ if(localStorage.getItem(KEY)==='1'){ unlock(); gate.remove(); return; } }catch(e){}
+    var form=gate.querySelector('form');
+    form.addEventListener('submit', function(){
+      try{ localStorage.setItem(KEY,'1'); }catch(e){}
+      setTimeout(function(){
+        unlock();
+        gate.querySelector('.gate-inner').innerHTML='<p class="mono gate-kicker">UNLOCKED. WELCOME IN. A CONFIRMATION EMAIL IS ON ITS WAY IF YOUR ADDRESS WENT THROUGH.</p>';
+        setTimeout(function(){ gate.remove(); }, 4000);
+      }, 250);
+    });
+  })();
+  </script>`;
+}
+
 function postPage(p) {
+  const hasMarker = p.html.includes("<!--GATE-->");
+  const isGated = p.gated === "true" && hasMarker;
+  if (p.gated === "true" && !hasMarker)
+    console.warn(`  ⚠ ${p.slug}: frontmatter says gated but no <!--GATE--> marker found; publishing UNGATED.`);
   const postLd = {
     "@type": "BlogPosting",
     headline: p.title,
@@ -310,6 +363,10 @@ function postPage(p) {
     publisher: { "@id": `${config.url}/#person` },
     mainEntityOfPage: p.url,
     keywords: p.tags.join(", "),
+    ...(isGated && {
+      isAccessibleForFree: false,
+      hasPart: { "@type": "WebPageElement", isAccessibleForFree: false, cssSelector: ".gated" },
+    }),
   };
   const content = `
 <article class="post">
@@ -320,9 +377,9 @@ function postPage(p) {
     <h1>${esc(p.title)}</h1>
   </header>
   ${p.image ? `<figure class="post-hero fx-city"><img src="${p.image}" alt="${esc(p.imageAlt || p.title)}" loading="eager"><canvas data-effect="city" aria-hidden="true"></canvas></figure>` : ""}
-  <div class="prose">
+  ${isGated ? gatedBody(p) : `<div class="prose">
     ${p.html}
-  </div>
+  </div>`}
   <footer class="post-footer">
     <div class="cta-band">
       <h2>Get the next essay.</h2>
@@ -436,7 +493,7 @@ ${posts
 <guid isPermaLink="true">${p.url}</guid>
 <pubDate>${new Date(p.date + "T08:00:00Z").toUTCString()}</pubDate>
 <description>${esc(p.excerpt)}</description>
-<content:encoded><![CDATA[${p.html}]]></content:encoded>
+<content:encoded><![CDATA[${p.gated === "true" ? p.html.split("<!--GATE-->")[0] + `<p><a href="${p.url}">The full thesis is free to read on the site. Continue reading…</a></p>` : p.html}]]></content:encoded>
 </item>`
   )
   .join("\n")}
