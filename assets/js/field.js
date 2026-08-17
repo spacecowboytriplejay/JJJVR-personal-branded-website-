@@ -15,6 +15,20 @@
 
 document.documentElement.classList.add("js");
 
+/* subscribe forms: post into the hidden iframe, confirm inline, never navigate away */
+(() => {
+  document.querySelectorAll("form.subscribe:not(.gate-form)").forEach((form) => {
+    form.addEventListener("submit", () => {
+      const btn = form.querySelector("button");
+      setTimeout(() => {
+        btn.textContent = "Subscribed ✓";
+        btn.disabled = true;
+        form.querySelector("input[type=email]").disabled = true;
+      }, 250);
+    });
+  });
+})();
+
 /* reveal on scroll */
 (() => {
   const els = document.querySelectorAll(".reveal");

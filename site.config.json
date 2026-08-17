@@ -19,6 +19,7 @@
   },
   "stack": ["Intelligence", "Bits", "Atoms", "Electrons"],
   "topics": ["AI systems", "Private equity", "AI sovereignty"],
+  "emailWebhook": "PASTE-YOUR-APPS-SCRIPT-WEB-APP-URL",
   "buttondownUsername": "CHANGE-ME",
   "plausibleDomain": "jeanjacquesjansevanrensburg.com",
   "advisory": {

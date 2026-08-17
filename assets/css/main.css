@@ -292,6 +292,19 @@ img { max-width: 100%; height: auto; display: block; }
 .prose td { padding: 9px 10px; border-bottom: 1px solid var(--line); color: #d6d6dc; vertical-align: top; }
 .prose tr:hover td { background: rgba(255, 255, 255, 0.02); }
 
+/* Anthropic-style big-stat blocks */
+.statfig { text-align: center; }
+.statgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 10px; }
+.stat { padding: 26px 8px 18px; border-bottom: 1px solid var(--line); }
+.statgrid:last-of-type .stat { border-bottom: 0; }
+.stat-n {
+  display: block; font-size: clamp(1.5rem, 4.6vw, 2.7rem); color: var(--ink);
+  text-shadow: 0 0 34px rgba(140, 190, 255, 0.22);
+}
+.stat-amber { color: #ffb450; text-shadow: 0 0 34px rgba(255, 180, 80, 0.25); }
+.stat-l { display: block; margin-top: 12px; color: var(--faint); line-height: 1.6; }
+@media (max-width: 560px) { .stat-n { font-size: 1.3rem; } .stat-l { font-size: 0.58rem; } }
+
 .gate { position: relative; margin: 0 0 2em; }
 .gate::before {
   content: ""; position: absolute; left: 0; right: 0; top: -140px; height: 140px;

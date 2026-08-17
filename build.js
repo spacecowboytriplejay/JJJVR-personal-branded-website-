@@ -199,6 +199,7 @@ ${content}
   </nav>
   <p class="footer-copy">${esc(config.author.name)} © ${new Date().getFullYear()} · Built on my own rails.</p>
 </footer>
+<iframe name="mail-sink" hidden aria-hidden="true" tabindex="-1"></iframe>
 <script src="/assets/js/field.js" defer></script>
 </body>
 </html>`;
@@ -206,10 +207,19 @@ ${content}
 
 /* ---------------- components ---------------- */
 
+/* Email capture: posts to the Google Apps Script webhook (rows land in a
+   Google Sheet Jean monitors). Falls back to Buttondown if no webhook is set.
+   Forms target a hidden iframe so the reader never navigates away. */
+const formAction =
+  config.emailWebhook && !config.emailWebhook.includes("PASTE")
+    ? config.emailWebhook
+    : `https://buttondown.com/api/emails/embed-subscribe/${config.buttondownUsername}`;
+
 const subscribeForm = (context) => `
-<form class="subscribe" action="https://buttondown.com/api/emails/embed-subscribe/${config.buttondownUsername}" method="post" data-context="${context}">
+<form class="subscribe" action="${formAction}" method="post" target="mail-sink" data-context="${context}">
   <label class="visually-hidden" for="email-${context}">Email address</label>
   <input type="email" id="email-${context}" name="email" placeholder="you@firm.com" required>
+  <input type="hidden" name="source" value="${context}">
   <button type="submit">Subscribe</button>
 </form>
 <p class="subscribe-note">Essays on AI systems, private equity, and AI sovereignty. Always free.</p>`;
@@ -314,12 +324,12 @@ function gatedBody(p) {
       <p class="mono gate-kicker">FULL THESIS / FREE / DELIVERED BY EMAIL</p>
       <h2 class="display-sm">READ THE REST.</h2>
       <p>Everything I publish is free to read, and this is no exception. Put your email in, the rest of the thesis unlocks now, and every future essay lands in your inbox.</p>
-      <form class="subscribe gate-form" action="https://buttondown.com/api/emails/embed-subscribe/${config.buttondownUsername}" method="post" target="gate-sink">
+      <form class="subscribe gate-form" action="${formAction}" method="post" target="mail-sink">
         <label class="visually-hidden" for="email-gate">Email address</label>
         <input type="email" id="email-gate" name="email" placeholder="you@firm.com" required>
+        <input type="hidden" name="source" value="gate-${p.slug}">
         <button type="submit">Unlock the thesis</button>
       </form>
-      <iframe name="gate-sink" hidden aria-hidden="true" tabindex="-1"></iframe>
       <p class="subscribe-note">No cost, no spam, unsubscribe any time. The machine remembers you on this device.</p>
     </div>
   </div>
