@@ -13,13 +13,13 @@
       "https://www.youtube.com/@JJJvR"
     ],
     "sameAsPending_ADD_REAL_URLS_THEN_MOVE_UP": [
-      "https://www.linkedin.com/in/YOUR-HANDLE",
+      "https://za.linkedin.com/in/jean-jacques-janse-van-rensburg-ab6a6918a",
       "https://x.com/YOUR-HANDLE"
     ]
   },
   "stack": ["Intelligence", "Bits", "Atoms", "Electrons"],
   "topics": ["AI systems", "Private equity", "AI sovereignty"],
-  "emailWebhook": "PASTE-YOUR-APPS-SCRIPT-WEB-APP-URL",
+  "emailWebhook": "https://script.google.com/macros/s/AKfycbz_7hPppdEDpZyd_IUpHC0J9JZ3Mi--fn79na-S8-xaNwI_aR-HA_sE_fY7Y3WjhDQI/exec",
   "buttondownUsername": "CHANGE-ME",
   "plausibleDomain": "jeanjacquesjansevanrensburg.com",
   "advisory": {
