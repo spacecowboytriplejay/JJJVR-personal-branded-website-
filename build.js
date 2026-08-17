@@ -17,6 +17,16 @@ const config = JSON.parse(fs.readFileSync(path.join(SRC, "site.config.json"), "u
 
 marked.setOptions({ mangle: false, headerIds: true });
 
+/* Asset version: content hash of css+js, appended to asset URLs so every
+   deploy busts browser caches despite the long-lived immutable cache header. */
+import crypto from "crypto";
+const ASSET_V = crypto
+  .createHash("md5")
+  .update(fs.readFileSync(path.join(SRC, "assets", "css", "main.css")))
+  .update(fs.readFileSync(path.join(SRC, "assets", "js", "field.js")))
+  .digest("hex")
+  .slice(0, 10);
+
 /* ---------------- utilities ---------------- */
 
 const esc = (s = "") =>
@@ -181,7 +191,7 @@ function layout({ title, description, canonical, image, jsonld, bodyClass = "", 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Michroma&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="/assets/css/main.css?v=${ASSET_V}">
 ${jsonld}
 <script defer data-domain="${config.plausibleDomain}" src="https://plausible.io/js/script.js"></script>
 </head>
@@ -214,7 +224,7 @@ ${content}
   <p class="footer-copy">${esc(config.author.name)} © ${new Date().getFullYear()} · Built on my own rails.</p>
 </footer>
 <iframe name="mail-sink" hidden aria-hidden="true" tabindex="-1"></iframe>
-<script src="/assets/js/field.js" defer></script>
+<script src="/assets/js/field.js?v=${ASSET_V}" defer></script>
 </body>
 </html>`;
 }
@@ -335,14 +345,14 @@ function gatedBody(p) {
   </div>
   <div class="gate" id="gate">
     <div class="gate-inner">
-      <p class="mono gate-kicker">FULL THESIS / FREE / DELIVERED BY EMAIL</p>
-      <h2 class="display-sm">READ THE REST.</h2>
-      <p>Everything I publish is free to read, and this is no exception. Put your email in, the rest of the thesis unlocks now, and every future essay lands in your inbox.</p>
+      <p class="mono gate-kicker">${esc(p.gateKicker || "FULL THESIS / FREE / DELIVERED BY EMAIL")}</p>
+      <h2 class="display-sm">${esc(p.gateHeading || "READ THE REST.")}</h2>
+      <p>${esc(p.gateText || "Everything I publish is free to read, and this is no exception. Put your email in, the rest of the thesis unlocks now, and every future essay lands in your inbox.")}</p>
       <form class="subscribe gate-form" action="${formAction}" method="post" target="mail-sink">
         <label class="visually-hidden" for="email-gate">Email address</label>
         <input type="email" id="email-gate" name="email" placeholder="you@firm.com" required>
         <input type="hidden" name="source" value="gate-${p.slug}">
-        <button type="submit">Unlock the thesis</button>
+        <button type="submit">${esc(p.gateButton || "Unlock the thesis")}</button>
       </form>
       <p class="subscribe-note">No cost, no spam, unsubscribe any time. The machine remembers you on this device.</p>
     </div>

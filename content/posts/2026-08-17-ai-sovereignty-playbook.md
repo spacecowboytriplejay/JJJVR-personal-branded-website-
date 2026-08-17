@@ -6,6 +6,11 @@ description: How to stop renting your thinking and start running infrastructure 
 image: /assets/images/ai-sovereignty-playbook.jpg
 imageAlt: A monolithic sovereign compute obelisk under an orbital ring, dark and luminous
 tags: [ai sovereignty, infrastructure, private ai]
+gated: true
+gateKicker: FULL PLAYBOOK / FREE / DELIVERED BY EMAIL
+gateHeading: DON'T GET CAUGHT WITH YOUR PANTS DOWN.
+gateText: That was the problem. The rest is the full solution, free: the this-week damage control, the gateway architecture that makes any provider replaceable in a config change, the real self-hosting numbers nobody shows you, the August 2026 reference stack, and the printable checklist. Email in, everything unlocks now.
+gateButton: Unlock the playbook
 ---
 
 <p class="thesis-kicker mono">SELFBUILTSYSTEMS / PLAYBOOK / FRONTIER AI SYSTEMS &amp; PRIVATE INFRASTRUCTURE</p>
@@ -55,6 +60,8 @@ Now the part that should change how you architect your business.
 Not one customer had contractual recourse. Not the enterprise accounts. Not the ones with negotiated commercial terms, indemnities and service credits. No agreement protects you here, because the counterparty was never your vendor. It was a government your vendor has to obey.
 
 If your operations run through a single provider, this already happened to you. You just may not have noticed, because you were not on those two models.
+
+<!--GATE-->
 
 ## 2. What actually happened, and what did not
 
