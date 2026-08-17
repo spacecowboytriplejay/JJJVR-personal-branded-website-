@@ -9,7 +9,7 @@ tags: [ai, private equity, sovereignty]
 featured: true
 ---
 
-Jean Jacques Janse van Rensburg is founder and CEO of SelfBuiltSystems, a frontier AI systems firm, and co-founder of Silla Global AI. He built LNCELOT, an intelligence and prediction market platform, and Leyline AI. He produces the Jean Jacques Janse van Rensburg channel on AI, private equity, and venture capital, and runs business and AI strategy across a private equity portfolio, where he owns growth end to end: sales, marketing, and operations. His background spans venture capital, private equity, artificial intelligence, and behavioral economics.
+Jean Jacques Janse van Rensburg is founder and CEO of SelfBuiltSystems, a frontier AI systems firm, and co-founder of <span class="redacted" aria-label="redacted until launch" title="[REDACTED]"></span>. He built LNCELOT, an intelligence and prediction market platform, and Leyline AI. He produces the Jean Jacques Janse van Rensburg channel on AI, private equity, and venture capital, and runs business and AI strategy across a private equity portfolio, where he owns growth end to end: sales, marketing, and operations. His background spans venture capital, private equity, artificial intelligence, and behavioral economics.
 
 I am an operator and investor, and I think about compounding systems: intelligence, capital, and organizations, all the way up to civilizations.
 
@@ -73,7 +73,7 @@ Organizations are the fundamental unit that scales an individual, and the best o
 
 In today's language: the best organizations were always loop stacks. Explicit specs, tight feedback, relentless culling of what does not work. AI did not invent the software factory. It just made the factory legible enough to automate.
 
-I co-founded Silla Global AI to build exactly this kind of organization.
+I co-founded <span class="redacted" aria-label="redacted until launch" title="[REDACTED]"></span> to build exactly this kind of organization. The name stays sealed until launch.
 
 ## I am interested in how knowledge grows
 
@@ -99,7 +99,7 @@ Subscribe for free to get my essays delivered to your inbox. Everything here wil
 
 - [SelfBuiltSystems](https://www.selfbuiltsystems.com): frontier AI systems and private AI infrastructure for founders and firms
 - LNCELOT: intelligence and prediction markets
-- Silla Global AI
+- Current project: <span class="redacted" aria-label="redacted until launch" title="[REDACTED]"></span> · in soft launch, announcement pending
 - Frontier Model Intelligence: the standing practice that decompiles every major model release
 - [YouTube](https://www.youtube.com/@JJJvR): AI, private equity, and venture capital
 

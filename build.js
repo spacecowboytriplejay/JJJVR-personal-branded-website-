@@ -50,7 +50,15 @@ function parseFrontmatter(raw) {
   return { data, body: m[2] };
 }
 
+/* Redaction guard: these terms must never appear in ANY built artifact.
+   The redaction is real removal, not paint. If a term leaks back in via a
+   future post or config edit, the build fails loudly instead of publishing it. */
+const FORBIDDEN_TERMS = [/silla/i];
+
 function write(rel, content) {
+  for (const re of FORBIDDEN_TERMS) {
+    if (re.test(content)) throw new Error(`REDACTION FAILURE: forbidden term ${re} found in ${rel}. Build aborted, nothing published.`);
+  }
   const file = path.join(DIST, rel);
   fs.mkdirSync(path.dirname(file), { recursive: true });
   fs.writeFileSync(file, content);
@@ -195,7 +203,13 @@ ${content}
 <footer class="site-footer">
   <div class="footer-stack mono" aria-hidden="true">${config.stack.join(" · ").toUpperCase()}</div>
   <nav class="footer-links" aria-label="Footer">
-    ${config.footerLinks.map((l) => `<a href="${l.href}">${esc(l.label)}</a>`).join("\n    ")}
+    ${config.footerLinks
+      .map((l) =>
+        l.label === "[REDACTED]"
+          ? `<a href="${l.href}" aria-label="redacted until launch" title="[REDACTED]"><span class="redacted redacted-sm"></span></a>`
+          : `<a href="${l.href}">${esc(l.label)}</a>`
+      )
+      .join("\n    ")}
   </nav>
   <p class="footer-copy">${esc(config.author.name)} © ${new Date().getFullYear()} · Built on my own rails.</p>
 </footer>

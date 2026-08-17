@@ -7,7 +7,7 @@ title: About
   <figcaption>Jean Jacques Janse van Rensburg (this photo is free to use under CC BY 4.0)</figcaption>
 </figure>
 
-I am Jean Jacques Janse van Rensburg: founder and CEO of SelfBuiltSystems, a frontier AI systems firm, and co-founder of Silla Global AI. I built LNCELOT, an intelligence and prediction market platform, and Leyline AI. I run business and AI strategy across a private equity portfolio, where I own growth end to end: sales, marketing, and operations.
+I am Jean Jacques Janse van Rensburg: founder and CEO of SelfBuiltSystems, a frontier AI systems firm, and co-founder of <span class="redacted" aria-label="redacted until launch" title="[REDACTED]"></span>. I built LNCELOT, an intelligence and prediction market platform, and Leyline AI. I run business and AI strategy across a private equity portfolio, where I own growth end to end: sales, marketing, and operations.
 
 One line: I compound intelligence, capital, and organizations.
 
