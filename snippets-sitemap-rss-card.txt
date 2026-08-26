@@ -1,0 +1,29 @@
+ADD TO sitemap.xml, inside <urlset>
+
+<url>
+  <loc>https://www.jeanjacquesjansevanrensburg.com/posts/intelligence-meets-resistance/</loc>
+  <lastmod>2026-08-26</lastmod>
+  <image:image><image:loc>https://www.jeanjacquesjansevanrensburg.com/assets/images/intelligence-meets-resistance.jpg</image:loc></image:image>
+</url>
+
+
+ADD TO rss.xml, as the newest <item> inside <channel>
+
+<item>
+  <title>Intelligence Meets Resistance</title>
+  <link>https://www.jeanjacquesjansevanrensburg.com/posts/intelligence-meets-resistance/</link>
+  <guid isPermaLink="true">https://www.jeanjacquesjansevanrensburg.com/posts/intelligence-meets-resistance/</guid>
+  <pubDate>Wed, 26 Aug 2026 08:00:00 +0200</pubDate>
+  <description>Capital can convert into intelligence almost without friction and cannot convert into transformers at all. That asymmetry is where the next decade of returns sits.</description>
+</item>
+
+
+ADD TO the home page essays list
+
+<!-- essay card for the Essays list on the home page.
+     Match the markup of the existing cards before pasting. -->
+<a class="card" href="/posts/intelligence-meets-resistance/">
+  <p class="card-meta mono"><time datetime="2026-08-26">26 Aug 2026</time><span>16 min read</span><span class="tag">ai</span><span class="tag">infrastructure</span><span class="tag">energy</span><span class="tag">physical ai</span></p>
+  <h3>Intelligence Meets Resistance</h3>
+  <p>Capital can convert into intelligence almost without friction and cannot convert into transformers at all. That asymmetry is where the next decade of returns sits.</p>
+</a>

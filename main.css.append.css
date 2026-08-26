@@ -1,0 +1,9 @@
+/* ---- figures for data essays. tokens only, no new colours ---- */
+.post-fig { margin: 2.4em 0 2.6em; }
+.post-fig .fig-title { margin-bottom: .25em; color: var(--ink); }
+.post-fig .fig-sub { font-size: .92rem; color: var(--dim); margin-bottom: 1.1em; }
+.post-fig .fig-scroll { overflow-x: auto; }
+.post-fig svg { display: block; width: 100%; min-width: 520px; height: auto; }
+.post-fig .fig-src { margin-top: .9em; color: var(--faint); font-size: .62rem; }
+.prose .lede { font-size: 1.18rem; color: var(--ink); margin-bottom: 1em; }
+.prose .series-line { margin-bottom: 2.2em; }
