@@ -1,0 +1,42 @@
+HEAD EDITS — 12 find-and-replace operations
+==========================================
+You are editing a COPY of an existing post file, so every script, link,
+icon and font tag is already correct. Only these twelve values change.
+
+ 1  <title>…</title>
+    ->  <title>Intelligence Meets Resistance &middot; Jean Jacques Janse van Rensburg</title>
+
+ 2  <meta name="description" content="…">
+    ->  content="Capital can convert into intelligence almost without friction and cannot convert into transformers at all. That asymmetry is where the next decade of returns sits."
+
+ 3  <link rel="canonical" href="…">
+    ->  href="https://www.jeanjacquesjansevanrensburg.com/posts/intelligence-meets-resistance/"
+
+ 4  <meta property="og:title" content="…">
+    ->  content="Intelligence Meets Resistance"
+
+ 5  <meta property="og:description" content="…">
+    ->  content="Capital can convert into intelligence almost without friction and cannot convert into transformers at all. That asymmetry is where the next decade of returns sits."
+
+ 6  <meta property="og:url" content="…">
+    ->  content="https://www.jeanjacquesjansevanrensburg.com/posts/intelligence-meets-resistance/"
+
+ 7  <meta property="og:image" content="…">
+    ->  content="https://www.jeanjacquesjansevanrensburg.com/assets/images/intelligence-meets-resistance.jpg"
+
+ 8  <meta name="twitter:title" content="…">
+    ->  content="Intelligence Meets Resistance"
+
+ 9  <meta name="twitter:description" content="…">
+    ->  content="Capital can convert into intelligence almost without friction and cannot convert into transformers at all. That asymmetry is where the next decade of returns sits."
+
+10  <meta name="twitter:image" content="…">
+    ->  content="https://www.jeanjacquesjansevanrensburg.com/assets/images/intelligence-meets-resistance.jpg"
+
+11  the <script type="application/ld+json"> block
+    ->  replace its whole contents with the JSON in LD-JSON.json
+
+12  everything between <main …> and </main>
+    ->  replace with the contents of ARTICLE-BLOCK.html
+
+Leave og:type, og:site_name, twitter:card and theme-color exactly as they are.

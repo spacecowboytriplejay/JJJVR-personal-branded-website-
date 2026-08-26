@@ -1,0 +1,75 @@
+WHY NOTHING CHANGED
+===================
+I checked the live server. Only ONE of the files reached the repo:
+
+  /assets/images/intelligence-meets-resistance.jpg   200 OK
+
+Everything else is missing:
+
+  /posts/intelligence-meets-resistance/              404
+  main.css                                           still 15,233 bytes,
+                                                     no post-fig rules
+  home page                                          still 3 essays
+
+So the deployment succeeded because the image commit was real. The post
+file never made it into the repo at all. GitHub's "Upload files" box does
+not keep folder structure when you drag loose files out of a zip. It puts
+them flat into whichever directory you are currently viewing, and it
+silently skips ones it cannot place. Your image happened to work; the
+nested index.html did not.
+
+Also: nothing would have rendered correctly even if it had landed,
+because the file I gave you had four blocks you needed to paste by hand
+and main.css was never appended. That was a bad handoff on my part. This
+version removes the hand-pasting.
+
+
+THE FIX — about five minutes, no guessing
+=========================================
+
+STEP 1 — main.css   (do this first)
+  Open  assets/css/main.css  in GitHub, click the pencil,
+  scroll to the very bottom, paste the contents of
+  main.css.append.css, commit.
+  Without this the five charts have no styling.
+
+STEP 2 — create the post from a copy of an existing one
+  a) Open  posts/an-api-for-working-with-me/index.html  in GitHub.
+  b) Click Raw, select all, copy.
+  c) Back in the repo, Add file -> Create new file.
+  d) In the filename box type exactly:
+       posts/intelligence-meets-resistance/index.html
+     Typing the slashes creates the folders. Do NOT upload, type it.
+  e) Paste what you copied.
+  f) Make the twelve edits in HEAD-REPLACEMENTS.txt.
+     Eleven are one-line swaps. The twelfth replaces everything
+     between <main> and </main> with ARTICLE-BLOCK.html.
+  g) Commit.
+
+  Copying an existing post means every script, font link, icon,
+  header and footer is already correct. Nothing to reconstruct.
+
+STEP 3 — make it findable
+  From snippets-sitemap-rss-card.txt:
+    - one <url> block into sitemap.xml
+    - one <item> into rss.xml as the newest entry
+    - one card into the essays list on the home page
+      (check it against the existing cards before pasting)
+
+STEP 4 — check
+  Visit  /posts/intelligence-meets-resistance/
+  You should see the mono date line with four pill tags, the title in
+  Inter 800, the city hero with rounded corners, then the essay with
+  five charts.
+
+
+FILES IN THIS BUNDLE
+====================
+  main.css.append.css            paste at the end of assets/css/main.css
+  ARTICLE-BLOCK.html             goes between <main> and </main>
+  HEAD-REPLACEMENTS.txt          the twelve head edits
+  LD-JSON.json                   replaces the ld+json block contents
+  snippets-sitemap-rss-card.txt  sitemap, rss and home page card
+  HOW-TO-PUBLISH.txt             this file
+
+The image is already live and correct. Do not re-upload it.

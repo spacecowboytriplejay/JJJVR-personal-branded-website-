@@ -1,0 +1,56 @@
+{
+ "@context": "https://schema.org",
+ "@type": "Article",
+ "headline": "Intelligence Meets Resistance",
+ "author": {
+  "@type": "Person",
+  "name": "Jean Jacques Janse van Rensburg",
+  "url": "https://www.jeanjacquesjansevanrensburg.com/",
+  "jobTitle": "Founder",
+  "worksFor": {
+   "@type": "Organization",
+   "name": "SelfBuiltSystems",
+   "url": "https://www.selfbuiltsystems.com"
+  }
+ },
+ "datePublished": "2026-08-26",
+ "dateModified": "2026-08-26",
+ "articleSection": "Atoms",
+ "keywords": "AI infrastructure, physical AI, AI for the grid, AI on the grid, energy stack, electrification, edge inference, open-weight models, industrial AI, capital allocation",
+ "about": [
+  {
+   "@type": "Thing",
+   "name": "Physical AI"
+  },
+  {
+   "@type": "Thing",
+   "name": "AI for the grid"
+  },
+  {
+   "@type": "Thing",
+   "name": "AI on the grid"
+  },
+  {
+   "@type": "Thing",
+   "name": "Energy infrastructure"
+  },
+  {
+   "@type": "Thing",
+   "name": "Edge inference"
+  },
+  {
+   "@type": "Thing",
+   "name": "Multi-agent systems"
+  }
+ ],
+ "description": "Capital can convert into intelligence almost without friction and cannot convert into transformers at all. That asymmetry is where the next decade of returns sits.",
+ "image": "https://www.jeanjacquesjansevanrensburg.com/assets/images/intelligence-meets-resistance.jpg",
+ "publisher": {
+  "@type": "Person",
+  "name": "Jean Jacques Janse van Rensburg"
+ },
+ "mainEntityOfPage": {
+  "@type": "WebPage",
+  "@id": "https://www.jeanjacquesjansevanrensburg.com/posts/intelligence-meets-resistance/"
+ }
+}
