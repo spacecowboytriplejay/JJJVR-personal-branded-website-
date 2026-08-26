@@ -1,0 +1,65 @@
+WHAT WENT WRONG, AND THE ACTUAL FIX
+===================================
+
+I was diagnosing from the deployed website instead of the repo, and I got
+it wrong twice. Your site is NOT hand-written flat HTML. It has a build
+step: build.js, package.json, site.config.json, vercel.json.
+
+The real source of truth is:
+
+    content/posts/YYYY-MM-DD-slug.md
+
+build.js reads those markdown files and generates everything else: the
+/posts/<slug>/index.html page, the sitemap, the RSS feed and the essay
+cards on the home page.
+
+So the HTML file I gave you was committed correctly to main. The generator
+simply ignored it, because it does not read from posts/. That is why the
+deployment succeeded and nothing appeared.
+
+
+DO THIS
+=======
+
+1. ADD ONE FILE
+   Add file -> Create new file. Filename, typed exactly:
+
+       content/posts/2026-08-26-intelligence-meets-resistance.md
+
+   Paste the contents of the .md in this bundle. Commit to main.
+   That is the whole essay. The build generates the page, the sitemap
+   entry, the RSS item and the home page card by itself.
+
+2. APPEND THE CSS
+   Open assets/css/main.css, scroll to the bottom, paste the contents of
+   main.css.append.css, commit. Without this the five charts are unstyled.
+
+3. DELETE THE CLUTTER I CAUSED
+   These are all at the repo root or in posts/ and do nothing:
+
+       ARTICLE-BLOCK.html
+       HEAD-REPLACEMENTS.txt
+       HOW-TO-PUBLISH.txt
+       LD-JSON.json
+       README-PUSH.txt
+       main.css.append.css        (delete AFTER step 2)
+       snippets-sitemap-rss-card.txt
+       posts/intelligence-meets-resistance/index.html
+       and the now-empty posts/ folder
+
+   Deleting posts/ matters: if build.js writes its output there, a
+   stale hand-made file could shadow the generated one.
+
+4. LEAVE THE IMAGE ALONE
+   assets/images/intelligence-meets-resistance.jpg is already committed
+   and correct. The front matter points at it.
+
+
+FRONT MATTER, matched to your existing posts
+============================================
+  title, slug, date, description, image, imageAlt, tags
+  No gate fields, because this one is a free essay rather than a
+  lead magnet.
+
+Your renderer is marked, which passes raw HTML through, so the five
+inline SVG charts render as written.
