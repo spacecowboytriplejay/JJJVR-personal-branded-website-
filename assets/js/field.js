@@ -11,6 +11,7 @@
    bits    - dissolving bit-grid rain (bits page)
    atom    - nucleus + orbiting electrons (atoms page)
    current - energy lines with traveling pulses (electrons page)
+   router  - one signal splitting into four lanes (/start)
    ============================================================ */
 
 document.documentElement.classList.add("js");
@@ -191,6 +192,64 @@ document.documentElement.classList.add("js");
           ctx.fillStyle = `rgba(${WHITE},0.9)`;
           ctx.beginPath(); ctx.arc(x, l.y, 1.8, 0, Math.PI * 2); ctx.fill();
         }
+      }
+    },
+
+    /* Router: one signal enters, splits into four lanes. Lane hues run
+       the brand cascade, electron blue to field violet, and match the
+       four route rows below, so the hero draws the page's structure. */
+    router(ctx, w, h, t, S) {
+      const LANES = ["140,190,255", "157,173,255", "173,157,255", "190,140,255"];
+      if (!S.geo) {
+        const hero = ctx.canvas.parentElement;
+        let textRight = 0;
+        if (hero) hero.querySelectorAll("h1, .router-lede").forEach((el) => {
+          textRight = Math.max(textRight, el.getBoundingClientRect().right - hero.getBoundingClientRect().left);
+        });
+        const band = textRight + 40 > w * 0.74;
+        const sx = band ? w * 0.06 : textRight + 40, sy = band ? h - 66 : h * 0.5;
+        const bx = band ? w * 0.4 : sx + (w - sx) * 0.38;
+        const ends = LANES.map((_, i) => band
+          ? { x: w * 1.02, y: h - 112 + i * 24 }
+          : { x: w * 1.02, y: h * (0.22 + i * 0.19) });
+        S.geo = { sx, sy, bx, ends, trunk: 0.42 };
+        S.pulses = Array.from({ length: 7 }, (_, i) => ({ p: Math.random(), v: rnd(0.0018, 0.0034), lane: i % 4 }));
+        S.dots = Array.from({ length: Math.floor((w * h) / 9000) }, () => ({ x: Math.random() * w, y: Math.random() * h, a: rnd(0.03, 0.12) }));
+      }
+      const G = S.geo;
+      const at = (p, lane) => {
+        if (p <= G.trunk) { const k = p / G.trunk; return [G.sx + (G.bx - G.sx) * k, G.sy]; }
+        const k = (p - G.trunk) / (1 - G.trunk), e = G.ends[lane];
+        const c1x = G.bx + (e.x - G.bx) * 0.45, c1y = G.sy, c2x = G.bx + (e.x - G.bx) * 0.55, c2y = e.y;
+        const m = 1 - k;
+        return [m * m * m * G.bx + 3 * m * m * k * c1x + 3 * m * k * k * c2x + k * k * k * e.x,
+                m * m * m * G.sy + 3 * m * m * k * c1y + 3 * m * k * k * c2y + k * k * k * e.y];
+      };
+      for (const d of S.dots) { ctx.fillStyle = `rgba(${WHITE},${d.a})`; ctx.fillRect(d.x, d.y, 1, 1); }
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = "rgba(255,255,255,0.07)";
+      ctx.beginPath(); ctx.moveTo(G.sx, G.sy); ctx.lineTo(G.bx, G.sy); ctx.stroke();
+      LANES.forEach((rgb, i) => {
+        ctx.strokeStyle = `rgba(${rgb},0.14)`;
+        ctx.beginPath();
+        for (let s = 0; s <= 40; s++) { const [x, y] = at(G.trunk + (1 - G.trunk) * (s / 40), i); s ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }
+        ctx.stroke();
+      });
+      ctx.fillStyle = `rgba(${WHITE},0.9)`;
+      ctx.beginPath(); ctx.arc(G.bx, G.sy, 2, 0, Math.PI * 2); ctx.fill();
+      for (const pl of S.pulses) {
+        pl.p += pl.v;
+        if (pl.p > 1) { pl.p = 0; pl.lane = (pl.lane + 1) % 4; }
+        const rgb = pl.p <= G.trunk ? WHITE : LANES[pl.lane];
+        for (let k = 14; k >= 0; k--) {
+          const q = pl.p - k * 0.006; if (q < 0) continue;
+          const [x, y] = at(q, pl.lane);
+          ctx.fillStyle = `rgba(${rgb},${(1 - k / 15) * 0.55})`;
+          ctx.fillRect(x - 1, y - 1, 2, 2);
+        }
+        const [hx, hy] = at(pl.p, pl.lane);
+        ctx.fillStyle = `rgba(${rgb},0.95)`; ctx.shadowColor = `rgba(${rgb},0.9)`; ctx.shadowBlur = 10;
+        ctx.beginPath(); ctx.arc(hx, hy, 1.8, 0, Math.PI * 2); ctx.fill(); ctx.shadowBlur = 0;
       }
     },
   };

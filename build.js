@@ -499,6 +499,95 @@ function stackPage(s, i) {
   });
 }
 
+/* ---------------- router (/start) ----------------
+   The single link in every bio. One signal enters, four routes leave.
+   Every word lives in site.config.json -> router. Route links carry UTM
+   tags; inbound UTMs (e.g. ?utm_source=instagram) are forwarded so the
+   destination sees where the visitor really came from. */
+function routerPage() {
+  const r = config.router;
+  const latest = posts[0];
+  const u = r.utm;
+  const tag = (href, id) => {
+    if (!/^https?:/.test(href)) return href;
+    const sep = href.includes("?") ? "&" : "?";
+    return `${href}${sep}utm_source=${u.source}&utm_medium=${u.medium}&utm_campaign=${u.campaign}&utm_content=${id}`;
+  };
+  const routes = r.routes.map((rt, i) => `
+    <li class="route reveal" style="--lane:${i}">
+      <a class="route-link" href="${tag(rt.href, rt.id)}" data-route="${rt.id}"${/^https?:/.test(rt.href) ? ' rel="noopener"' : ""}>
+        <span class="route-meta mono"><span class="route-n">ROUTE 0${i + 1}</span><span class="route-label">${esc(rt.label)}</span></span>
+        <span class="route-body">
+          <span class="route-name display-sm">${esc(rt.name)}</span>
+          <span class="route-sub mono">${esc(rt.sub)}</span>
+          <span class="route-line">${esc(rt.line)}</span>
+          <span class="route-who">${esc(rt.who)}</span>
+        </span>
+        <span class="route-act">
+          <span class="route-status mono"><span class="route-dot" aria-hidden="true"></span>${esc(rt.status)}</span>
+          <span class="route-cta">${esc(rt.cta)} <span aria-hidden="true">→</span></span>
+        </span>
+      </a>
+    </li>`).join("");
+  const content = `
+<section class="router-hero">
+  <canvas data-effect="router" aria-hidden="true"></canvas>
+  <div class="router-inner">
+    <p class="kicker mono reveal">${esc(r.kicker)}</p>
+    <h1 class="display reveal">${esc(r.heading)}</h1>
+    <p class="router-lede reveal">${esc(r.lede)}</p>
+  </div>
+</section>
+
+<section class="routes" aria-label="Routes">
+  <ol class="route-list">${routes}
+  </ol>
+  <p class="router-proof mono" aria-label="Fields of work">${r.proof.map(esc).join('<span class="sep" aria-hidden="true">/</span>')}</p>
+</section>
+
+${latest ? `
+<section class="router-signal" aria-label="Read the thinking first">
+  <p class="section-label mono">OR READ THE THINKING FIRST</p>
+  <article class="latest-card reveal">
+    <a href="/${latest.path}" data-route="essay">
+      <p class="card-meta mono">LATEST ESSAY / ${fmtDate(latest.date).toUpperCase()} / ${latest.minutes} MIN</p>
+      <h2>${esc(latest.title)}</h2>
+      <p>${esc(latest.excerpt)}</p>
+    </a>
+  </article>
+  <nav class="router-more mono" aria-label="More">
+    <a href="/#essays" data-route="essays">All essays →</a>
+    <a href="https://www.youtube.com/@JJJvR" rel="noopener" data-route="youtube">YouTube →</a>
+    <span class="router-mail">info@selfbuiltsystems.com</span>
+  </nav>
+</section>` : ""}
+
+<script>
+(function(){
+  var q=new URLSearchParams(location.search), keys=["utm_source","utm_medium","utm_campaign","utm_content","utm_term"], inbound={};
+  keys.forEach(function(k){ if(q.get(k)) inbound[k]=q.get(k); });
+  window.plausible=window.plausible||function(){(window.plausible.q=window.plausible.q||[]).push(arguments)};
+  document.querySelectorAll("a[data-route]").forEach(function(a){
+    if(/^https?:/.test(a.href) && a.hostname!==location.hostname && Object.keys(inbound).length){
+      var url=new URL(a.href);
+      if(inbound.utm_source){ url.searchParams.set("utm_source",inbound.utm_source); url.searchParams.set("utm_medium",inbound.utm_medium||"social"); }
+      if(inbound.utm_campaign) url.searchParams.set("utm_campaign",inbound.utm_campaign);
+      a.href=url.toString();
+    }
+    a.addEventListener("click",function(){ window.plausible("Route",{props:{route:a.dataset.route,src:inbound.utm_source||"direct"}}); });
+  });
+})();
+</script>`;
+  return layout({
+    title: `${r.title} · ${config.siteName}`,
+    description: r.description,
+    canonical: `${config.url}/${r.path}/`,
+    jsonld: ld([{ "@type": "WebPage", name: r.title, url: `${config.url}/${r.path}/`, about: { "@type": "Person", name: config.author.name, url: config.url } }]),
+    bodyClass: "router-page",
+    content,
+  });
+}
+
 function notFoundPage() {
   return layout({
     title: `404 | ${config.siteName}`,
@@ -534,7 +623,7 @@ ${posts
 </channel>
 </rss>`;
 
-const urls = [`${config.url}/`, `${config.url}/about/`, ...stackPages.map((s) => s.url), ...posts.map((p) => p.url)];
+const urls = [`${config.url}/`, `${config.url}/about/`, ...(config.router ? [`${config.url}/${config.router.path}/`] : []), ...stackPages.map((s) => s.url), ...posts.map((p) => p.url)];
 const withPortrait = new Set([`${config.url}/`, `${config.url}/about/`]);
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
@@ -604,6 +693,7 @@ copyDir(path.join(SRC, "assets"), path.join(DIST, "assets"));
 console.log("  ✓ assets/");
 write("index.html", homePage());
 write("about/index.html", aboutPage());
+if (config.router) write(`${config.router.path}/index.html`, routerPage());
 stackPages.forEach((s, i) => write(`${s.path}index.html`, stackPage(s, i)));
 for (const p of posts) write(`${p.path}index.html`, postPage(p));
 write("404.html", notFoundPage());

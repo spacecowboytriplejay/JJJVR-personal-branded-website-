@@ -17,8 +17,17 @@
       "https://x.com/YOUR-HANDLE"
     ]
   },
-  "stack": ["Intelligence", "Bits", "Atoms", "Electrons"],
-  "topics": ["AI systems", "Private equity", "AI sovereignty"],
+  "stack": [
+    "Intelligence",
+    "Bits",
+    "Atoms",
+    "Electrons"
+  ],
+  "topics": [
+    "AI systems",
+    "Private equity",
+    "AI sovereignty"
+  ],
   "emailWebhook": "https://script.google.com/macros/s/AKfycbz_7hPppdEDpZyd_IUpHC0J9JZ3Mi--fn79na-S8-xaNwI_aR-HA_sE_fY7Y3WjhDQI/exec",
   "buttondownUsername": "CHANGE-ME",
   "plausibleDomain": "jeanjacquesjansevanrensburg.com",
@@ -27,15 +36,104 @@
     "note": "The price is a filter, not a revenue line."
   },
   "nav": [
-    { "label": "Home", "href": "/" },
-    { "label": "Essays", "href": "/#essays" },
-    { "label": "About", "href": "/about/" }
+    {
+      "label": "Home",
+      "href": "/"
+    },
+    {
+      "label": "Essays",
+      "href": "/#essays"
+    },
+    {
+      "label": "About",
+      "href": "/about/"
+    }
   ],
   "footerLinks": [
-    { "label": "SelfBuiltSystems", "href": "https://www.selfbuiltsystems.com" },
-    { "label": "[REDACTED]", "href": "#" },
-    { "label": "LNCELOT", "href": "#" },
-    { "label": "YouTube", "href": "https://www.youtube.com/@JJJvR" },
-    { "label": "RSS", "href": "/rss.xml" }
-  ]
+    {
+      "label": "SelfBuiltSystems",
+      "href": "https://www.selfbuiltsystems.com"
+    },
+    {
+      "label": "[REDACTED]",
+      "href": "#"
+    },
+    {
+      "label": "Gallahand Intelligence",
+      "href": "https://gallahand.si"
+    },
+    {
+      "label": "YouTube",
+      "href": "https://www.youtube.com/@JJJvR"
+    },
+    {
+      "label": "RSS",
+      "href": "/rss.xml"
+    }
+  ],
+  "router": {
+    "path": "start",
+    "title": "Start here",
+    "description": "One signal, four routes. Build your own content factory, have AI systems built into your company, bring intelligence to physical assets and capital, or book a direct session with Jean Jacques Janse van Rensburg.",
+    "kicker": "ROUTER / ONE SIGNAL, FOUR ROUTES",
+    "heading": "CHOOSE YOUR ROUTE",
+    "lede": "I build systems across intelligence, bits, atoms and electrons, and compound them into capital. Each route opens a different door. Take the one that matches what you came here to do.",
+    "utm": {
+      "source": "jjjvr",
+      "medium": "router",
+      "campaign": "bio"
+    },
+    "routes": [
+      {
+        "id": "factory",
+        "label": "BUILD IT YOURSELF",
+        "name": "MERLYN WORKS",
+        "sub": "The Content Factory",
+        "line": "A six-week protocol that installs an AI-native content factory you run yourself: the system, the workflows and the agents behind them.",
+        "who": "Founders, creators and operators building alone",
+        "status": "Invitation list open",
+        "cta": "Request an invitation",
+        "href": "https://selfbuiltsystems.io/content-factory"
+      },
+      {
+        "id": "sbs",
+        "label": "HAVE IT BUILT",
+        "name": "SELFBUILTSYSTEMS",
+        "sub": "AI systems firm",
+        "line": "We design and install the AI systems and content infrastructure inside your company, then train the team that runs them.",
+        "who": "Companies doing $3M a year and up",
+        "status": "Selecting 5 companies",
+        "cta": "Book a strategy call",
+        "href": "https://www.selfbuiltsystems.com"
+      },
+      {
+        "id": "gallahand",
+        "label": "INTELLIGENCE FOR THE PHYSICAL WORLD",
+        "name": "GALLAHAND INTELLIGENCE",
+        "sub": "Intelligence firm",
+        "line": "We wire intelligence into the systems that move atoms and electrons: infrastructure, energy, logistics and the capital behind them.",
+        "who": "Operators of physical assets, funds and family offices",
+        "status": "By application",
+        "cta": "Apply for a briefing",
+        "href": "https://gallahand.si"
+      },
+      {
+        "id": "session",
+        "label": "DIRECT LINE",
+        "name": "ARCHITECTURE SESSION",
+        "sub": "One to one with Jean",
+        "line": "Sixty minutes on the decision in front of you, then a written architecture memo within 48 hours. Credited in full against any engagement.",
+        "who": "Decision makers who need the answer this week",
+        "status": "$1,000 per session",
+        "cta": "Book the session",
+        "href": "mailto:info@selfbuiltsystems.com?subject=Architecture%20session"
+      }
+    ],
+    "proof": [
+      "AI SYSTEMS",
+      "PRIVATE EQUITY",
+      "VENTURE CAPITAL",
+      "G20 / B20 WORKING GROUPS 2025"
+    ]
+  }
 }
