@@ -564,6 +564,7 @@ ${latest ? `
 
 <script>
 (function(){
+  try{ if(!localStorage.getItem("jjjvr_ft")){ var q0=new URLSearchParams(location.search); localStorage.setItem("jjjvr_ft",JSON.stringify({id:(crypto.randomUUID?crypto.randomUUID():String(Date.now())+Math.random()),source:q0.get("utm_source")||document.referrer||"direct",landed:new Date().toISOString()})); } }catch(e){}
   var q=new URLSearchParams(location.search), keys=["utm_source","utm_medium","utm_campaign","utm_content","utm_term"], inbound={};
   keys.forEach(function(k){ if(q.get(k)) inbound[k]=q.get(k); });
   window.plausible=window.plausible||function(){(window.plausible.q=window.plausible.q||[]).push(arguments)};
@@ -584,6 +585,99 @@ ${latest ? `
     canonical: `${config.url}/${r.path}/`,
     jsonld: ld([{ "@type": "WebPage", name: r.title, url: `${config.url}/${r.path}/`, about: { "@type": "Person", name: config.author.name, url: config.url } }]),
     bodyClass: "router-page",
+    content,
+  });
+}
+
+/* ---------------- applications (/apply/<form>/) ----------------
+   Static form pages. Every submission posts to config.intakeWebhook
+   (one Google Apps Script endpoint -> Leads sheet + Telegram ping).
+   Until that URL is set, submissions fall back to the existing email
+   webhook so nothing is lost. First-touch source travels with the lead. */
+const FIELDS = {
+  name: { label: "Name", type: "text", auto: "name", required: true },
+  email: { label: "Email", type: "email", auto: "email", required: true },
+  company: { label: "Company", type: "text", auto: "organization", required: true },
+  role: { label: "Your role", type: "text", auto: "organization-title", required: true },
+  revenue_band: { label: "Annual revenue", type: "select", required: true,
+    options: ["Pre-revenue", "Under $250k", "$250k - $1M", "$1M - $3M", "$3M - $15M", "$15M+"] },
+  decision: { label: "The decision in front of you", type: "textarea", required: true,
+    hint: "What you are deciding, what is at stake, and what you have already tried." },
+  timeline: { label: "When do you need the answer?", type: "select", required: true,
+    options: ["This week", "This month", "This quarter"] },
+  open_to_capital: { label: "Open to strategic partners or outside capital?", type: "select", required: true,
+    options: ["Yes", "Not now"] },
+  starting_point: { label: "Where are you starting from?", type: "select", required: true,
+    options: ["Starting from zero", "Building alone, with some traction", "Running a business with a team"] },
+};
+
+function fieldHtml(key, formKey) {
+  const f = FIELDS[key], id = `${formKey}-${key}`, req = f.required ? " required" : "";
+  const label = `<label for="${id}">${esc(f.label)}</label>`;
+  const hint = f.hint ? `<span class="apply-hint">${esc(f.hint)}</span>` : "";
+  let input;
+  if (f.type === "select") input = `<select id="${id}" name="${key}"${req}><option value="" disabled selected>Select</option>${f.options.map((o) => `<option>${esc(o)}</option>`).join("")}</select>`;
+  else if (f.type === "textarea") input = `<textarea id="${id}" name="${key}" rows="5" maxlength="2000"${req}></textarea>`;
+  else input = `<input id="${id}" name="${key}" type="${f.type}" autocomplete="${f.auto || "off"}"${req}>`;
+  return `<div class="apply-field${f.type === "textarea" ? " wide" : ""}">${label}${hint}${input}</div>`;
+}
+
+function applyPage(key) {
+  const a = config.apply, f = a.forms[key];
+  const endpoint = config.intakeWebhook || config.emailWebhook;
+  const content = `
+<section class="router-hero apply-hero">
+  <canvas data-effect="router" aria-hidden="true"></canvas>
+  <div class="router-inner">
+    <p class="kicker mono reveal"><a href="/${config.router.path}/">ROUTER</a> / ${esc(f.kicker)}</p>
+    <h1 class="display reveal">${esc(f.heading)}</h1>
+    <p class="router-lede reveal">${esc(f.lede)}</p>
+  </div>
+</section>
+<section class="apply-wrap">
+  <form class="apply-form" id="apply-${key}" action="${endpoint}" method="post" novalidate>
+    <div class="apply-grid">${f.fields.map((k) => fieldHtml(k, key)).join("")}</div>
+    <input type="hidden" name="route" value="${f.route}">
+    <input type="hidden" name="page" value="/${a.path}/${key}/">
+    <div class="apply-trap" aria-hidden="true"><label for="${key}-website">Website</label><input id="${key}-website" name="website" tabindex="-1" autocomplete="off"></div>
+    <p class="apply-error" role="alert" hidden>Fill in the highlighted fields to send this.</p>
+    <button type="submit" class="apply-submit">${esc(f.button)} <span aria-hidden="true">→</span></button>
+  </form>
+  <div class="apply-done" role="status" hidden>
+    <p class="mono apply-done-k">RECEIVED</p>
+    <p class="apply-done-t">${esc(f.done)}</p>
+    <a class="mono" href="/${config.router.path}/">Back to the router →</a>
+  </div>
+</section>
+<script>
+(function(){
+  var KEY="jjjvr_ft", q=new URLSearchParams(location.search), ft=null;
+  try{ ft=JSON.parse(localStorage.getItem(KEY)||"null"); }catch(e){}
+  if(!ft){ ft={id:(crypto.randomUUID?crypto.randomUUID():String(Date.now())+Math.random()),source:q.get("utm_source")||document.referrer||"direct",landed:new Date().toISOString()}; try{localStorage.setItem(KEY,JSON.stringify(ft));}catch(e){} }
+  var form=document.getElementById("apply-${key}"), err=form.querySelector(".apply-error"), done=form.parentNode.querySelector(".apply-done");
+  form.addEventListener("input",function(e){ e.target.closest(".apply-field") && e.target.closest(".apply-field").classList.remove("bad"); err.hidden=true; });
+  form.addEventListener("submit",function(e){
+    e.preventDefault();
+    var bad=[].filter.call(form.querySelectorAll("[required]"),function(el){return !el.checkValidity();});
+    bad.forEach(function(el){ el.closest(".apply-field").classList.add("bad"); });
+    if(bad.length){ err.hidden=false; bad[0].focus(); return; }
+    var d=new URLSearchParams(new FormData(form));
+    ["utm_source","utm_medium","utm_campaign","utm_content"].forEach(function(k){ if(q.get(k)) d.set(k,q.get(k)); });
+    d.set("ft_id",ft.id); d.set("ft_source",ft.source); d.set("ft_landed_at",ft.landed); d.set("source","apply-${key}");
+    form.querySelector("button").disabled=true;
+    fetch(form.action,{method:"POST",mode:"no-cors",body:d}).catch(function(){}).then(function(){
+      form.hidden=true; done.hidden=false;
+      if(window.plausible) window.plausible("Application",{props:{route:"${f.route}"}});
+    });
+  });
+})();
+</script>`;
+  return layout({
+    title: `${f.title} · ${config.siteName}`,
+    description: f.lede,
+    canonical: `${config.url}/${a.path}/${key}/`,
+    jsonld: "",
+    bodyClass: "router-page apply-page",
     content,
   });
 }
@@ -694,6 +788,7 @@ console.log("  ✓ assets/");
 write("index.html", homePage());
 write("about/index.html", aboutPage());
 if (config.router) write(`${config.router.path}/index.html`, routerPage());
+if (config.apply) for (const k of Object.keys(config.apply.forms)) write(`${config.apply.path}/${k}/index.html`, applyPage(k));
 stackPages.forEach((s, i) => write(`${s.path}index.html`, stackPage(s, i)));
 for (const p of posts) write(`${p.path}index.html`, postPage(p));
 write("404.html", notFoundPage());

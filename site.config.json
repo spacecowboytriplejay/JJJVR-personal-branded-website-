@@ -93,7 +93,7 @@
         "who": "Founders, creators and operators building alone",
         "status": "Invitation list open",
         "cta": "Request an invitation",
-        "href": "https://selfbuiltsystems.io/content-factory"
+        "href": "/apply/invite/"
       },
       {
         "id": "sbs",
@@ -125,8 +125,8 @@
         "line": "Sixty minutes on the decision in front of you, then a written architecture memo within 48 hours. Credited in full against any engagement.",
         "who": "Decision makers who need the answer this week",
         "status": "$1,000 per session",
-        "cta": "Book the session",
-        "href": "mailto:info@selfbuiltsystems.com?subject=Architecture%20session"
+        "cta": "Apply for a session",
+        "href": "/apply/session/"
       }
     ],
     "proof": [
@@ -135,5 +135,44 @@
       "VENTURE CAPITAL",
       "G20 / B20 WORKING GROUPS 2025"
     ]
+  },
+  "intakeWebhook": "",
+  "apply": {
+    "path": "apply",
+    "forms": {
+      "invite": {
+        "route": "factory",
+        "title": "Request an invitation",
+        "kicker": "ROUTE 01 / MERLYN WORKS",
+        "heading": "REQUEST AN INVITATION",
+        "lede": "The founding cohort of the Content Factory opens in January, by invitation. Leave your details and you hear first, with founding terms.",
+        "fields": [
+          "name",
+          "email",
+          "starting_point"
+        ],
+        "button": "Request invitation",
+        "done": "You are on the invitation list. Founding terms arrive by email before the cohort opens."
+      },
+      "session": {
+        "route": "session",
+        "title": "Apply for a session",
+        "kicker": "ROUTE 04 / DIRECT LINE",
+        "heading": "APPLY FOR A SESSION",
+        "lede": "Sixty minutes on the decision in front of you, then a written architecture memo within 48 hours. $1,000, credited in full against any engagement. Tell me about the decision; if it is a fit you get a time and a payment link within two business days.",
+        "fields": [
+          "name",
+          "email",
+          "company",
+          "role",
+          "revenue_band",
+          "decision",
+          "timeline",
+          "open_to_capital"
+        ],
+        "button": "Send application",
+        "done": "Application received. If it is a fit, you get a time and a payment link within two business days."
+      }
+    }
   }
 }
