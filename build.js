@@ -534,6 +534,7 @@ function routerPage() {
   <canvas data-effect="router" aria-hidden="true"></canvas>
   <div class="router-inner">
     <p class="kicker mono reveal">${esc(r.kicker)}</p>
+    ${r.welcome ? `<p class="router-welcome reveal">${esc(r.welcome)}</p>` : ""}
     <h1 class="display reveal">${esc(r.heading)}</h1>
     <p class="router-lede reveal">${esc(r.lede)}</p>
   </div>
@@ -573,6 +574,7 @@ ${latest ? `
       var url=new URL(a.href);
       if(inbound.utm_source){ url.searchParams.set("utm_source",inbound.utm_source); url.searchParams.set("utm_medium",inbound.utm_medium||"social"); }
       if(inbound.utm_campaign) url.searchParams.set("utm_campaign",inbound.utm_campaign);
+      if(inbound.utm_content) url.searchParams.set("utm_term",inbound.utm_content);
       a.href=url.toString();
     }
     a.addEventListener("click",function(){ window.plausible("Route",{props:{route:a.dataset.route,src:inbound.utm_source||"direct"}}); });
@@ -637,6 +639,7 @@ function applyPage(key) {
 <section class="apply-wrap">
   <form class="apply-form" id="apply-${key}" action="${endpoint}" method="post" novalidate>
     <div class="apply-grid">${f.fields.map((k) => fieldHtml(k, key)).join("")}</div>
+    <label class="apply-consent"><input type="checkbox" name="consent" required> I agree that these details are stored to assess and respond to this application.</label>
     <input type="hidden" name="route" value="${f.route}">
     <input type="hidden" name="page" value="/${a.path}/${key}/">
     <div class="apply-trap" aria-hidden="true"><label for="${key}-website">Website</label><input id="${key}-website" name="website" tabindex="-1" autocomplete="off"></div>
@@ -655,11 +658,11 @@ function applyPage(key) {
   try{ ft=JSON.parse(localStorage.getItem(KEY)||"null"); }catch(e){}
   if(!ft){ ft={id:(crypto.randomUUID?crypto.randomUUID():String(Date.now())+Math.random()),source:q.get("utm_source")||document.referrer||"direct",landed:new Date().toISOString()}; try{localStorage.setItem(KEY,JSON.stringify(ft));}catch(e){} }
   var form=document.getElementById("apply-${key}"), err=form.querySelector(".apply-error"), done=form.parentNode.querySelector(".apply-done");
-  form.addEventListener("input",function(e){ e.target.closest(".apply-field") && e.target.closest(".apply-field").classList.remove("bad"); err.hidden=true; });
+  form.addEventListener("input",function(e){ var w=e.target.closest(".apply-field")||e.target.parentNode; w&&w.classList.remove("bad"); err.hidden=true; });
   form.addEventListener("submit",function(e){
     e.preventDefault();
     var bad=[].filter.call(form.querySelectorAll("[required]"),function(el){return !el.checkValidity();});
-    bad.forEach(function(el){ el.closest(".apply-field").classList.add("bad"); });
+    bad.forEach(function(el){ (el.closest(".apply-field")||el.parentNode).classList.add("bad"); });
     if(bad.length){ err.hidden=false; bad[0].focus(); return; }
     var d=new URLSearchParams(new FormData(form));
     ["utm_source","utm_medium","utm_campaign","utm_content"].forEach(function(k){ if(q.get(k)) d.set(k,q.get(k)); });

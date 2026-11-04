@@ -77,7 +77,7 @@
     "description": "One signal, four routes. Build your own content factory, have AI systems built into your company, bring intelligence to physical assets and capital, or book a direct session with Jean Jacques Janse van Rensburg.",
     "kicker": "ROUTER / ONE SIGNAL, FOUR ROUTES",
     "heading": "CHOOSE YOUR ROUTE",
-    "lede": "I build systems across intelligence, bits, atoms and electrons, and compound them into capital. Each route opens a different door. Take the one that matches what you came here to do.",
+    "lede": "My team and I build systems across intelligence, bits, atoms and electrons, and compound them into capital. Each route opens a different door. Take the one you came for.",
     "utm": {
       "source": "jjjvr",
       "medium": "router",
@@ -89,32 +89,32 @@
         "label": "BUILD IT YOURSELF",
         "name": "MERLYN WORKS",
         "sub": "The Content Factory",
-        "line": "A six-week protocol that installs an AI-native content factory you run yourself: the system, the workflows and the agents behind them.",
+        "line": "A six-week protocol that installs an AI-native content factory you run yourself: the systems, workflows and agents behind Timon Kriek's GIIFTD Academy, Blaine Riley and Chelsko, through to investment operators like Cobus Nel and Edgars Podnieks of Daltyn Invest.",
         "who": "Founders, creators and operators building alone",
         "status": "Invitation list open",
         "cta": "Request an invitation",
-        "href": "/apply/invite/"
+        "href": "https://www.selfbuiltsystems.io/"
       },
       {
         "id": "sbs",
         "label": "HAVE IT BUILT",
         "name": "SELFBUILTSYSTEMS",
         "sub": "AI systems firm",
-        "line": "We design and install the AI systems and content infrastructure inside your company, then train the team that runs them.",
+        "line": "Frontier AI systems and content infrastructure built inside operating companies, then handed to the team that runs them.",
         "who": "Companies doing $3M a year and up",
         "status": "Selecting 5 companies",
         "cta": "Book a strategy call",
-        "href": "https://www.selfbuiltsystems.com"
+        "href": "https://www.selfbuiltsystems.com/sbs-ai"
       },
       {
         "id": "gallahand",
         "label": "INTELLIGENCE FOR THE PHYSICAL WORLD",
         "name": "GALLAHAND INTELLIGENCE",
         "sub": "Intelligence firm",
-        "line": "We wire intelligence into the systems that move atoms and electrons: infrastructure, energy, logistics and the capital behind them.",
+        "line": "Intelligence piped into the physical world: energy, logistics, infrastructure, and the capital behind them.",
         "who": "Operators of physical assets, funds and family offices",
-        "status": "By application",
-        "cta": "Apply for a briefing",
+        "status": "By introduction only",
+        "cta": "Request an introduction",
         "href": "https://gallahand.si"
       },
       {
@@ -134,9 +134,10 @@
       "PRIVATE EQUITY",
       "VENTURE CAPITAL",
       "G20 / B20 WORKING GROUPS 2025"
-    ]
+    ],
+    "welcome": "Welcome, world builders and capital allocators."
   },
-  "intakeWebhook": "",
+  "intakeWebhook": "https://cbmbvxbrmzlfkqtqqwbp.supabase.co/functions/v1/lead",
   "apply": {
     "path": "apply",
     "forms": {
