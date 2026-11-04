@@ -18,21 +18,23 @@
 
 const SHEET_NAME = 'Leads';
 const HEADERS = [
-  'received_at', 'route', 'name', 'email', 'company', 'role', 'revenue_band',
-  'decision', 'timeline', 'open_to_capital', 'starting_point', 'page', 'source',
-  'utm_source', 'utm_medium', 'utm_campaign', 'utm_content',
+  'received_at', 'route', 'qualified', 'name', 'email', 'company', 'role', 'revenue_band',
+  'budget', 'urgency', 'timeline', 'stage', 'bottleneck', 'prior_agency',
+  'asset', 'constraint', 'jurisdiction', 'decision', 'open_to_capital', 'starting_point',
+  'page', 'source', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term',
   'ft_id', 'ft_source', 'ft_landed_at'
 ];
 const ROUTE_NAMES = {
   factory: 'MERLYN WORKS invitation',
   session: 'ARCHITECTURE SESSION application',
-  sbs: 'SELFBUILTSYSTEMS enquiry',
-  gallahand: 'GALLAHAND briefing request'
+  gallahand: 'GALLAHAND briefing request',
+  sbs: 'SELFBUILTSYSTEMS qualify completed'
 };
 
 function doPost(e) {
   const p = (e && e.parameter) || {};
   if (p.website) return ok_(); // spam trap: humans never fill this field
+  if (p.route === 'sbs' && p.qualified === 'no') { sheet_().appendRow(HEADERS.map(function (h) { return h === 'received_at' ? new Date() : String(p[h] || ''); })); return ok_(); } // log, no ping
   const lock = LockService.getScriptLock();
   lock.waitLock(10000);
   try {
@@ -81,11 +83,19 @@ function notify_(p) {
     line('Email', p.email),
     line('Company', p.company),
     line('Role', p.role),
+    line('Qualified', p.qualified),
     line('Revenue', p.revenue_band),
+    line('Budget', p.budget),
+    line('Urgency', p.urgency),
+    line('Stage', p.stage),
+    line('Bottleneck', p.bottleneck),
+    line('Asset', p.asset),
+    line('Costly number', p.constraint),
+    line('Operates in', p.jurisdiction),
     line('Timeline', p.timeline),
     line('Open to capital', p.open_to_capital),
     line('Starting point', p.starting_point),
-    decision ? '\nDecision: ' + decision : null,
+    decision ? '\nBrief: ' + decision : null,
     '',
     line('Source', p.utm_source || p.ft_source),
     line('Campaign', p.utm_campaign),

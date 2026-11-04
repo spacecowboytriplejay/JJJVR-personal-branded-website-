@@ -664,6 +664,10 @@ function applyPage(key) {
     var d=new URLSearchParams(new FormData(form));
     ["utm_source","utm_medium","utm_campaign","utm_content"].forEach(function(k){ if(q.get(k)) d.set(k,q.get(k)); });
     d.set("ft_id",ft.id); d.set("ft_source",ft.source); d.set("ft_landed_at",ft.landed); d.set("source","apply-${key}");
+    if(${config.intakeWebhook ? "false" : "true"}){
+      var packed=[]; d.forEach(function(v,k){ if(v && k!=="email" && k!=="website" && k!=="source") packed.push(k+"="+String(v).replace(/[|\\s]+/g," ")); });
+      var e=d.get("email"); d=new URLSearchParams(); d.set("email",e); d.set("source","apply-${key} | "+packed.join(" | "));
+    }
     form.querySelector("button").disabled=true;
     fetch(form.action,{method:"POST",mode:"no-cors",body:d}).catch(function(){}).then(function(){
       form.hidden=true; done.hidden=false;
